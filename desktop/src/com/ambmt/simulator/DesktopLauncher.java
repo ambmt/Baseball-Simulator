@@ -6,13 +6,14 @@ import com.ambmt.simulator.BaseballSim;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
+	private static boolean fullScreen = true;
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Baseball Simulator");
-		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		if(fullScreen){
+			config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		}
 		new Lwjgl3Application(new BaseballSim(), config);
-
-
 	}
 }
