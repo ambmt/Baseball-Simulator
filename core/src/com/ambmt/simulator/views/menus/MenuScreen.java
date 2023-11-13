@@ -32,22 +32,23 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        System.out.println("Render called 1");
+//        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        batch.draw(bg, 0, 0, 1920, 1080); // Adjust the size accordingly
-        // Draw menu items, buttons, etc.
+        System.out.println("Before batch.draw");
+        batch.draw(bg, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        System.out.println("After batch.draw");
         batch.end();
-        System.out.println("Render called");
-
         // Handle input to transition to the next screen (e.g., game screen)
         if (Gdx.input.isTouched()) {
-
+            System.out.println("Hello!");
         }
+        System.out.println("After if statement");
     }
 
     @Override
