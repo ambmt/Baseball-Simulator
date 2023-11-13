@@ -1,2 +1,4 @@
-package com.ambmt.simulator.input;public class KeyboardInput {
+package com.ambmt.simulator.input;
+
+public class KeyboardInput {
 }
