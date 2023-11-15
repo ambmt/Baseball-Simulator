@@ -31,7 +31,6 @@ public class BaseballSim extends Game {
 		setScreen(new MenuScreen(this));
 		//Preventing images flashing on screen for no reason
 		Gdx.graphics.setContinuousRendering(false);
-//		System.out.println(Gdx.graphics.isContinuousRendering());
 		bg = new Texture("bg.jpg");
 
 
