@@ -42,8 +42,6 @@ public class MenuScreen implements Screen {
         viewportWidth = game.camera.viewportWidth;
         viewportHeight = game.camera.viewportHeight;
     }
-
-
     @Override
     public void show() {
         // Create a table that fills the screen. Everything else will go inside this table.
