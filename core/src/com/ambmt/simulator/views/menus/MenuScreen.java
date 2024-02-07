@@ -36,8 +36,6 @@ public class MenuScreen implements Screen {
         viewportWidth = game.camera.viewportWidth;
         viewportHeight = game.camera.viewportHeight;
     }
-
-
     @Override
     public void show() {
         // Create a table that fills the screen. Everything else will go inside this table.
@@ -65,6 +63,15 @@ public class MenuScreen implements Screen {
         table.row();
         table.add(exit).width(viewportWidth / 4).height(viewportHeight / 5);
 
+        // Listeners
+        documentation.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.net.openURI("https://www.youtube.com");
+                event.handle();
+            }
+        });
 
         // Listeners
         documentation.addListener(new ClickListener() {
