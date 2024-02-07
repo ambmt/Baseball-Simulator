@@ -735,4 +735,53 @@ public class TempSim {
         }
     }
 
+/*
+import java.util.Random;
+
+// Assuming calculatePitchOutcome is defined elsewhere with the following signature:
+// String calculatePitchOutcome(String pitch, boolean isRedo, String edgePos, double margin, int redoPitchLoops)
+
+Random random = new Random();
+int rand = random.nextInt(100) + 1; // random number between 1 and 100
+
+if (1 <= rand && rand <= Math.round(margin)) {
+    redoPitchLoops += 1;
+    return calculatePitchOutcome(pitch, true, edgePos, margin, redoPitchLoops);
+} else {
+    return "Foul";
+}
+// The rest of the code seems to be part of a larger context that is not provided.
+// The following is an attempt to translate the given structure into Java, but it may not be complete.
+
+// Assuming this is part of a method, we continue the translation
+// else if (rand <= 41 && rand <= 58) { // This condition will never be true, it seems to be an error in the original code
+if (rand <= 41 || rand <= 58) { // Assuming the intended condition was an OR
+    if ("Batter".equals(edgePos)) {
+        rand = random.nextInt(100) + 1;
+        if (1 <= rand && rand <= Math.round(margin)) {
+            redoPitchLoops += 1;
+            return calculatePitchOutcome(pitch, true, edgePos, margin, redoPitchLoops);
+        } else {
+            return "Strike";
+        }
+    } else {
+        return "Strike";
+    }
+} else {
+    if ("Pitcher".equals(edgePos)) {
+        rand = random.nextInt(100) + 1;
+        if (1 <= rand && rand <= Math.round(margin)) {
+            redoPitchLoops += 1;
+            return calculatePitchOutcome(pitch, true, edgePos, margin, redoPitchLoops);
+        } else {
+            return "Ball_in_play";
+        }
+    } else {
+        return "Ball_in_play";
+    }
+}
+
+
+
+*/
 
