@@ -2,6 +2,7 @@
 package com.ambmt.simulator.views.menus;
 
 import com.ambmt.simulator.managers.PreferencesManager;
+import com.ambmt.simulator.simulation.MainSim;
 import com.ambmt.simulator.views.game.ScoreBug;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -46,6 +47,9 @@ public class InGameScreen extends ScreenAdapter {
         table.add(scrollPane).expand().fill().colspan(2);
 
         ScoreBug scoreBug = new ScoreBug(stage);
+        MainSim ms = new MainSim();
+        ms.MainSim();
+        ms.runSim();
         
 
 
