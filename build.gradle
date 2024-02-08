@@ -38,11 +38,13 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://jitpack.io" }
+        maven {url "https://central.sonatype.com/artifact/org.jsoup/jsoup"}
     }
 }
 
 project(":desktop") {
     apply plugin: "java-library"
+
 
 
     dependencies {
@@ -51,6 +53,7 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
+        implementation 'org.jsoup:jsoup:1.17.2'
         
     }
 }

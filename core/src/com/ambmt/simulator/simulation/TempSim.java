@@ -2,6 +2,7 @@ package com.ambmt.simulator.simulation;
 import java.util.Random;
 
 public class TempSim {
+    private Boolean abComplete;
     /*
     What returns mean :
     0 = "Ball"
@@ -10,19 +11,16 @@ public class TempSim {
     3 = "Ball in play"
     */
 
-    public void TempSim() {
-        Random random = new Random();
-        System.out.println(calculatePitchOutcome(1, false, "Pitcher", 10, 0, random) + " is the outcome");
-    }
 
     // This calculates the pitch outcome - if the pitcher gets a margin, the pitch is redone if the outcome is unfavorable for the pitcher (ball or ball in play)
     // Done using the article https://www.baseball-fever.com/forum/general-baseball/statistics-analysis-sabermetrics/8142-pitch-outcome-distribution-over-25-years
     // Returns an integer depending on the result
     // After pitch 13, a foul is returned to prevent the outcome from being too long
     // Edge is calculated through OPS+ numbers
-    public static Integer calculatePitchOutcome(int pitch, boolean redoPitch, String edgePos, double margin, int redoPitchLoops, Random random) {
+    public Integer calculatePitchOutcome(int pitch, boolean redoPitch, String edgePos, double margin, int redoPitchLoops, Random random) {
         int rand = random.nextInt(100) + 1;
         if (pitch == 1) {
+            System.out.println("hello");
             if (rand >= 1 && rand <= 43) {
                 return marginPitcher(pitch, edgePos, margin, redoPitchLoops, random);
                 // If in favour of the batter ,the pitch is redone on a non favorable outcome
@@ -346,11 +344,12 @@ public class TempSim {
                     // This is a ball in play
                     return marginBatter(pitch, edgePos, margin, redoPitchLoops, random);
                 }
+
             }
-            return -1;
+        return -1;
         }
 
-    private static Integer marginBatter(int pitch, String edgePos, double margin, int redoPitchLoops, Random random) {
+    private Integer marginBatter(int pitch, String edgePos, double margin, int redoPitchLoops, Random random) {
         int rand;
         if (edgePos.equals("Batter")) {
             rand = random.nextInt(100) + 1;
@@ -365,7 +364,7 @@ public class TempSim {
         }
     }
 
-    private static Integer marginPitcher(int pitch, String edgePos, double margin, int redoPitchLoops, Random random) {
+    private Integer marginPitcher(int pitch, String edgePos, double margin, int redoPitchLoops, Random random) {
         int rand;
         if (edgePos.equals("Pitcher")) {
             // Ball

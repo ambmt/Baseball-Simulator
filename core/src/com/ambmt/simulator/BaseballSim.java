@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.util.Random;
+
 
 public class BaseballSim extends Game {
 	public SpriteBatch batch;
@@ -30,9 +32,12 @@ public class BaseballSim extends Game {
 		batch = new SpriteBatch();
 		batch.enableBlending();
 		viewPort = new FitViewport(1920,1080,camera);
+
 		// by passing this, we allow all processes to be centered, and reduce wasting resources recreating variables
 		setScreen(new MenuScreen(this));
 		//Preventing images flashing on screen for no reason
+
+
 //     Gdx.graphics.setContinuousRendering(false);
 	}
 
@@ -50,5 +55,6 @@ public class BaseballSim extends Game {
 	public BitmapFont getFont(){
 		return font;
 	}
+
 
 }

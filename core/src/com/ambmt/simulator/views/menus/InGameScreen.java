@@ -2,6 +2,7 @@
 package com.ambmt.simulator.views.menus;
 
 import com.ambmt.simulator.managers.PreferencesManager;
+import com.ambmt.simulator.simulation.ImportPlayers;
 import com.ambmt.simulator.simulation.MainSim;
 import com.ambmt.simulator.simulation.TempSim;
 import com.ambmt.simulator.views.game.ScoreBug;
@@ -50,9 +51,10 @@ public class InGameScreen extends ScreenAdapter {
         ScoreBug scoreBug = new ScoreBug(stage);
         MainSim ms = new MainSim();
         ms.MainSim();
-        ms.runSim();
-        TempSim ts = new TempSim();
-        ts.TempSim();
+        ms.startGame();
+        ImportPlayers imp = new ImportPlayers();
+        imp.ImportPlayers();
+
         
 
 

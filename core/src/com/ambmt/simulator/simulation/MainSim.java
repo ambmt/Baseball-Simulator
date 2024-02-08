@@ -1,31 +1,47 @@
 package com.ambmt.simulator.simulation;
 
+import com.ambmt.simulator.BaseballSim;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainSim {
 
     private int runs;
+    private boolean gameActive;
     private List<Boolean> templateList = new ArrayList<>();
+    private TempSim tempSim;
+    private int atBatCount = 1;
+    private Random random;
 
     public void MainSim(){
+        random = new Random();
         templateList.add(0, false);
         templateList.add(1, false);
         templateList.add(2, false);
         templateList.add(3, false);
         templateList.add(4, false);
+        tempSim = new TempSim();
     }
-    public void runSim(){
+    public void newInning(){
         List<Boolean> runners = new ArrayList<>();
         runners.add(0,true); // Home - therefore this has to be true as a batter always has to be at the plate
-        runners.add(1,true); // First
+        runners.add(1,false); // First
         runners.add(2,false); // Second
         runners.add(3, false); // Third
         runners.add(4, false); // A runner has scored
-        List<Boolean> newRunners = Triple(runners);
-        System.out.println(newRunners);
-        System.out.println(runs);
-        // possibly a list containing true or false in each element. I
+    }
+
+    public void startGame(){
+        newInning();
+
+        while(!gameActive){
+            int sim = tempSim.calculatePitchOutcome(atBatCount, false,"Pitcher", 10, 0, random);
+            System.out.println(sim);
+            gameActive = true;
+
+        }
     }
 
 
