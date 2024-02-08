@@ -3,6 +3,7 @@ package com.ambmt.simulator.views.menus;
 
 import com.ambmt.simulator.managers.PreferencesManager;
 import com.ambmt.simulator.simulation.MainSim;
+import com.ambmt.simulator.simulation.TempSim;
 import com.ambmt.simulator.views.game.ScoreBug;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -50,6 +51,8 @@ public class InGameScreen extends ScreenAdapter {
         MainSim ms = new MainSim();
         ms.MainSim();
         ms.runSim();
+        TempSim ts = new TempSim();
+        ts.TempSim();
         
 
 
