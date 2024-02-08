@@ -22,6 +22,7 @@ public class InGameScreen extends ScreenAdapter {
     private boolean isPaused = false;
     private TextArea simTextArea;
 
+
     public InGameScreen(PreferencesManager preferencesManager) {
         this.preferencesManager = preferencesManager;
         stage = new Stage();

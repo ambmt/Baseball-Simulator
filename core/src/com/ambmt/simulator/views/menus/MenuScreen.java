@@ -181,4 +181,7 @@ public class MenuScreen implements Screen {
         bg.dispose();
         stage.dispose();
     }
+    public Stage getStage() {
+        return stage;
+    }
 }

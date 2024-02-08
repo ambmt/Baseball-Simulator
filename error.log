@@ -1,0 +1,84 @@
+----- Error Report -----
+Custom Message: 
+Timestamp: Thu Feb 08 19:45:15 GMT 2024
+java.lang.NullPointerException: Cannot read field "camera" because "game" is null
+	at com.ambmt.simulator.views.menus.MenuScreen.<init>(MenuScreen.java:36)
+	at com.ambmt.simulator.BaseballSim.create(BaseballSim.java:39)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.initializeListener(Lwjgl3Window.java:416)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:366)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:192)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:166)
+	at com.ambmt.simulator.DesktopLauncher.main(DesktopLauncher.java:17)
+------------------------
+----- Error Report -----
+Custom Message: 
+Timestamp: Thu Feb 08 19:45:30 GMT 2024
+java.lang.NullPointerException: Cannot read field "camera" because "game" is null
+	at com.ambmt.simulator.views.menus.MenuScreen.<init>(MenuScreen.java:36)
+	at com.ambmt.simulator.BaseballSim.create(BaseballSim.java:39)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.initializeListener(Lwjgl3Window.java:416)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:366)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:192)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:166)
+	at com.ambmt.simulator.DesktopLauncher.main(DesktopLauncher.java:17)
+------------------------
+----- Error Report -----
+Custom Message: 
+Timestamp: Thu Feb 08 19:45:59 GMT 2024
+java.lang.NullPointerException: Cannot read field "camera" because "game" is null
+	at com.ambmt.simulator.views.menus.MenuScreen.<init>(MenuScreen.java:36)
+	at com.ambmt.simulator.BaseballSim.create(BaseballSim.java:39)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.initializeListener(Lwjgl3Window.java:416)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:366)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:192)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:166)
+	at com.ambmt.simulator.DesktopLauncher.main(DesktopLauncher.java:17)
+------------------------
+----- Error Report -----
+Custom Message: 
+Timestamp: Thu Feb 08 19:46:20 GMT 2024
+java.lang.NullPointerException: Cannot read field "camera" because "game" is null
+	at com.ambmt.simulator.views.menus.MenuScreen.<init>(MenuScreen.java:36)
+	at com.ambmt.simulator.BaseballSim.create(BaseballSim.java:39)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.initializeListener(Lwjgl3Window.java:416)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:366)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:192)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:166)
+	at com.ambmt.simulator.DesktopLauncher.main(DesktopLauncher.java:17)
+------------------------
+----- Error Report -----
+Custom Message: Error! Please report this.
+Timestamp: Thu Feb 08 19:47:09 GMT 2024
+java.lang.NullPointerException: Cannot read field "camera" because "game" is null
+	at com.ambmt.simulator.views.menus.MenuScreen.<init>(MenuScreen.java:36)
+	at com.ambmt.simulator.BaseballSim.create(BaseballSim.java:39)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.initializeListener(Lwjgl3Window.java:416)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:366)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:192)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:166)
+	at com.ambmt.simulator.DesktopLauncher.main(DesktopLauncher.java:17)
+------------------------
+----- Error Report -----
+Custom Message: Error! Please report this.
+Timestamp: Thu Feb 08 19:47:46 GMT 2024
+java.lang.NullPointerException: Cannot read field "camera" because "game" is null
+	at com.ambmt.simulator.views.menus.MenuScreen.<init>(MenuScreen.java:36)
+	at com.ambmt.simulator.BaseballSim.create(BaseballSim.java:39)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.initializeListener(Lwjgl3Window.java:416)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:366)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:192)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:166)
+	at com.ambmt.simulator.DesktopLauncher.main(DesktopLauncher.java:17)
+------------------------
+----- Error Report -----
+Custom Message: Error! Please report this.
+Timestamp: Thu Feb 08 20:00:17 GMT 2024
+java.lang.NullPointerException: Cannot read field "camera" because "game" is null
+	at com.ambmt.simulator.views.menus.MenuScreen.<init>(MenuScreen.java:36)
+	at com.ambmt.simulator.BaseballSim.create(BaseballSim.java:39)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.initializeListener(Lwjgl3Window.java:416)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:366)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:192)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:166)
+	at com.ambmt.simulator.DesktopLauncher.main(DesktopLauncher.java:17)
+------------------------

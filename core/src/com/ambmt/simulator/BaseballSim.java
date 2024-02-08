@@ -1,6 +1,7 @@
 package com.ambmt.simulator;
 
 
+import com.ambmt.simulator.managers.ErrorManager;
 import com.ambmt.simulator.simulation.MainSim;
 import com.ambmt.simulator.views.menus.MenuScreen;
 import com.badlogic.gdx.Game;
@@ -34,7 +35,11 @@ public class BaseballSim extends Game {
 		viewPort = new FitViewport(1920,1080,camera);
 
 		// by passing this, we allow all processes to be centered, and reduce wasting resources recreating variables
-		setScreen(new MenuScreen(this));
+		try {
+			setScreen(new MenuScreen(null));
+		}catch(NullPointerException e){
+			ErrorManager.logError(e, "Error! Please report this.");
+		}
 		//Preventing images flashing on screen for no reason
 
 
