@@ -180,9 +180,7 @@ Project Link: [https://github.com/ambmt/Baseball-Simulator](https://github.com/a
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* [Baseball Simulator by benryan03 - Simulation code adapted to Java](https://github.com/benryan03/Baseball-Simulator/tree/master)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
