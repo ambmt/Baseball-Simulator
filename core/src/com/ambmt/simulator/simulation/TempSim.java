@@ -15,7 +15,7 @@ public class TempSim {
             calculatePitchOutcome(1, false, "Pitcher", 0, 0, random);
         }
         // This calculates the pitch outcome - if the pitcher gets a margin, the pitch is redone if the outcome is unfavorable for the pitcher (ball or ball in play)
-        // Done using the article https://www.baseball-fever.com/forum/general-baseball/statistics-analysis-sabermetrics/81427-pitch-outcome-distribution-over-25-years
+        // Done using the article https://www.baseball-fever.com/forum/general-baseball/statistics-analysis-sabermetrics/8142-pitch-outcome-distribution-over-25-years
         // Returns an integer depending on the result 
         // After pitch 13, a foul is returned to prevent the outcome from being too long
         // Edge is calculated through OPS+ numbers 
@@ -794,7 +794,7 @@ public class TempSim {
                     rand = random.nextInt(100) + 1;
                     if (1 <= rand && rand <= Math.round(margin)) {
                             redoPitchLoops += 1;
-                            return calculatePitchOutcome(pitch, true, edgePos, margin, redoPitchLoops);
+                            return calculatePitchOutcome(pitch, true, edgePos, margin, redoPitchLoops, random);
                         } else {
                             return 1;
                         }
