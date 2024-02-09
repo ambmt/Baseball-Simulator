@@ -1,0 +1,76 @@
+{
+  "away": [
+    {
+      "pitchers": [
+        {
+          "name": "Zack Greinke",
+          "position": "",
+          "earned_run_avg_plus": "103"
+        },
+        {
+          "name": "Lance McCullers",
+          "position": "",
+          "earned_run_avg_plus": "136"
+        },
+        {
+          "name": "Luis García",
+          "position": "",
+          "earned_run_avg_plus": "123"
+        },
+        {
+          "name": "Framber Valdez",
+          "position": "",
+          "earned_run_avg_plus": "137"
+        }
+      ],
+      "batters": [
+        "Martín Maldonado",
+        "Yuli Gurriel",
+        "José Altuve",
+        "Carlos Correa",
+        "Alex Bregman",
+        "Michael Brantley",
+        "Myles Straw",
+        "Kyle Tucker",
+        "Yordan Álvarez"
+      ]
+    }
+  ],
+  "home": [
+    {
+      "pitchers": [
+        {
+          "name": "Gerrit Cole",
+          "position": "",
+          "earned_run_avg_plus": "133"
+        },
+        {
+          "name": "Jordan Montgomery",
+          "position": "",
+          "earned_run_avg_plus": "112"
+        },
+        {
+          "name": "Jameson Taillon",
+          "position": "",
+          "earned_run_avg_plus": "100"
+        },
+        {
+          "name": "Domingo Germán",
+          "position": "",
+          "earned_run_avg_plus": "94"
+        }
+      ],
+      "batters": [
+        "Gary Sánchez",
+        "Anthony Rizzo",
+        "DJ LeMahieu",
+        "Gleyber Torres",
+        "Gio Urshela",
+        "Joey Gallo",
+        "Brett Gardner",
+        "Aaron Judge",
+        "Giancarlo Stanton"
+      ]
+    }
+  ]
+}

@@ -20,7 +20,6 @@ public class TempSim {
     public Integer calculatePitchOutcome(int pitch, boolean redoPitch, String edgePos, double margin, int redoPitchLoops, Random random) {
         int rand = random.nextInt(100) + 1;
         if (pitch == 1) {
-            System.out.println("hello");
             if (rand >= 1 && rand <= 43) {
                 return marginPitcher(pitch, edgePos, margin, redoPitchLoops, random);
                 // If in favour of the batter ,the pitch is redone on a non favorable outcome

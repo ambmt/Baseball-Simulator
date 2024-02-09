@@ -29,7 +29,7 @@ public class MainSim {
         runners.add(0,true); // Home - therefore this has to be true as a batter always has to be at the plate
         runners.add(1,false); // First
         runners.add(2,false); // Second
-        runners.add(3, false); // Third
+        runners.add(3, false); // Thirdv
         runners.add(4, false); // A runner has scored
     }
 

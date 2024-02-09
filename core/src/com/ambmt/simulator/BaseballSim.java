@@ -36,13 +36,14 @@ public class BaseballSim extends Game {
 
 		// by passing this, we allow all processes to be centered, and reduce wasting resources recreating variables
 		try {
-			setScreen(new MenuScreen(null));
+			setScreen(new MenuScreen(this));
 		}catch(NullPointerException e){
 			ErrorManager.logError(e, "Error! Please report this.");
 		}
 		//Preventing images flashing on screen for no reason
 
 
+		//DO MORE SEQUENCE DIAGRAMS
 //     Gdx.graphics.setContinuousRendering(false);
 	}
 
