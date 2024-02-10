@@ -25,15 +25,7 @@ public class ImportPlayers {
         years.put("away", "2021");
 
         // Load and print batters for home and away teams
-        Map<String, List<String>> batters = LoadBatters(abbrs, years);
-        System.out.println("Home Batters:");
-        for (String batter : batters.get("home")) {
-            System.out.println(batter);
-        }
-        System.out.println("Away Batters:");
-        for (String batter : batters.get("away")) {
-            System.out.println(batter);
-        }
+        Map<String, List<Map<String, Object>>> batters = LoadBatters(abbrs, years);
 
         // Load and print pitchers for home and away teams
         Map<String, List<Map<String, String>>> pitchers = LoadPitchers(abbrs, years);
@@ -60,11 +52,10 @@ public class ImportPlayers {
     }
 
     // Load batters for home and away teams
-    public static Map<String, List<String>> LoadBatters(Map<String, String> abbrs, Map<String, String> years) {
-        Map<String, List<String>> batters = new HashMap<>();
+    public static Map<String, List<Map<String, Object>>> LoadBatters(Map<String, String> abbrs, Map<String, String> years) {
+        Map<String, List<Map<String, Object>>> batters = new HashMap<>();
         batters.put("home", new ArrayList<>(12));
         batters.put("away", new ArrayList<>(12));
-
         try {
             // Connect to the baseball-reference website for home and away teams
             Document homePage = Jsoup.connect("https://www.baseball-reference.com/teams/" + abbrs.get("home") + "/" + years.get("home") + ".shtml").get();
@@ -74,14 +65,20 @@ public class ImportPlayers {
             Elements homeBatters = homePage.select("#team_batting tbody tr");
             Elements awayBatters = awayPage.select("#team_batting tbody tr");
 
+
             // Iterate through the first 8 batters
             for (int i = 0; i < 8; i++) {
                 Element homeBatter = homeBatters.get(i);
                 Element awayBatter = awayBatters.get(i);
+                System.out.println(homeBatter);
 
                 // Extract full names of home and away batters
                 String homeFullName = homeBatter.select("td[data-stat=player]").attr("csk");
                 String awayFullName = awayBatter.select("td[data-stat=player]").attr("csk");
+                // Extract the on-base plus slugging plus for home and away batters
+                String homeOnBase = homeBatter.select("td[data-stat=onbase_plus_slugging_plus]").text();
+                String awayOnBase = awayBatter.select("td[data-stat=onbase_plus_slugging_plus]").text();
+
 
 
                 // Split full names into first and last names
@@ -90,14 +87,24 @@ public class ImportPlayers {
                 String awayFirstName = awayFullName.split(",")[1].trim();
                 String awayLastName = awayFullName.split(",")[0].trim();
 
-                // Add formatted names to the batters list
-                batters.get("home").add(homeFirstName + " " + homeLastName);
-                batters.get("away").add(awayFirstName + " " + awayLastName);
+                // Create a map to store batter info
+                Map<String, Object> homeBatterInfo = new HashMap<>();
+                homeBatterInfo.put("name", homeFirstName + " " + homeLastName);
+                homeBatterInfo.put("on_base_percentage", homeOnBase);
+
+                Map<String, Object> awayBatterInfo = new HashMap<>();
+                awayBatterInfo.put("name", awayFirstName + " " + awayLastName);
+                awayBatterInfo.put("on_base_percentage", awayOnBase);
+
+                // Add batter info to the list
+                batters.get("home").add(homeBatterInfo);
+                batters.get("away").add(awayBatterInfo);
             }
 
             // Extract information for the 9th batter separately
             Element homeBatter9 = homeBatters.get(8);
             Element awayBatter9 = awayBatters.get(8);
+            System.out.println(homeBatter9);
 
             String homeFullName9 = homeBatter9.select("td[data-stat=player]").attr("csk");
             String awayFullName9 = awayBatter9.select("td[data-stat=player]").attr("csk");
@@ -105,10 +112,22 @@ public class ImportPlayers {
             String homeLastName9 = homeFullName9.split(",")[0].trim();
             String awayFirstName9 = awayFullName9.split(",")[1].trim();
             String awayLastName9 = awayFullName9.split(",")[0].trim();
+            // Extract additional stats for the 9th batter
+            String homeOnBasePercentage9 = homeBatter9.select("td[onbase_plus_slugging_plus]").text();
+            String awayOnBasePercentage9 = awayBatter9.select("td[onbase_plus_slugging_plus]").text();
+
+
+            Map<String, Object> homeBatterInfo9 = new HashMap<>();
+            homeBatterInfo9.put("name", homeFirstName9 + " " + homeLastName9);
+            homeBatterInfo9.put("on_base_percentage", homeOnBasePercentage9);
+
+            Map<String, Object> awayBatterInfo9 = new HashMap<>();
+            awayBatterInfo9.put("name", awayFirstName9 + " " + awayLastName9);
+            awayBatterInfo9.put("on_base_percentage", awayOnBasePercentage9);
 
             // Add formatted names of the 9th batter to the batters list
-            batters.get("home").add(homeFirstName9 + " " + homeLastName9);
-            batters.get("away").add(awayFirstName9 + " " + awayLastName9);
+            batters.get("home").add(homeBatterInfo9);
+            batters.get("away").add(awayBatterInfo9);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,12 +155,10 @@ public class ImportPlayers {
             for (int i = 0; i < 4; i++) {
                 Element homePitcher = homePitchers.get(i);
                 Element awayPitcher = awayPitchers.get(i);
-                System.out.println(homePitcher);
 
                 // Extract full names of home and away pitchers
                 String homeFullName = homePitcher.select("td[data-stat=player]").attr("csk");
                 String awayFullName = awayPitcher.select("td[data-stat=player]").attr("csk");
-                System.out.println(homeFullName);
 
                 // Split full names into first and last names
                 String homeFirstName = homeFullName.split(",")[1].trim();
@@ -289,7 +306,7 @@ public class ImportPlayers {
 //        return closers;
 //    }
 
-    public void savePlayersToJSON(Map<String, List<String>> batters, Map<String, List<Map<String, String>>> pitchers) {
+    public void savePlayersToJSON(Map<String, List<Map<String, Object>>> batters, Map<String, List<Map<String, String>>> pitchers) {
         try {
             // Create Jackson ObjectMapper
             ObjectMapper objectMapper = new ObjectMapper();
