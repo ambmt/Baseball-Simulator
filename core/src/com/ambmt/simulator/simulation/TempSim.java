@@ -22,7 +22,7 @@ public class TempSim {
         if (pitch == 1) {
             if (rand >= 1 && rand <= 43) {
                 return marginPitcher(pitch, edgePos, margin, redoPitchLoops, random);
-                // If in favour of the batter ,the pitch is redone on a non favorable outcome
+                // If in favour of the batter ,the pitch is redone on a non-favorable outcome
             } else if (rand >= 44 && rand <= 72) {
                 // Called strike
                 return marginBatter(pitch, edgePos, margin, redoPitchLoops, random);
