@@ -14,6 +14,8 @@ public class MainSim {
     private TempSim tempSim;
     private int atBatCount = 1;
     private Random random;
+    private int outs = 0;
+    private int innings = 0;
 
     public void MainSim(){
         random = new Random();
@@ -23,25 +25,68 @@ public class MainSim {
         templateList.add(3, false);
         templateList.add(4, false);
         tempSim = new TempSim();
+        this.outs = 0;
+        this.innings = 0;
     }
-    public void newInning(){
+    public List<Boolean> newInning(){
         List<Boolean> runners = new ArrayList<>();
         runners.add(0,true); // Home - therefore this has to be true as a batter always has to be at the plate
         runners.add(1,false); // First
         runners.add(2,false); // Second
         runners.add(3, false); // Thirdv
         runners.add(4, false); // A runner has scored
+        return runners;
     }
 
     public void startGame(){
-        newInning();
 
         while(!gameActive){
-            int sim = tempSim.calculatePitchOutcome(atBatCount, false,"Pitcher", 10, 0, random);
-            System.out.println(sim);
-            gameActive = true;
+            List<Boolean> runners= newInning();
+            int result;
+            int strikes = 0;
+
+            do{
+                result = tempSim.calculatePitchOutcome(1,false,"batter",20,0,random);
+                if(result == 1){
+                    strikes++;
+                }
+            }while (result !=3 && strikes <= 2);
+
+            if(result == 3){
+                int hitResult = generateRandomHit();
+            }
+            if (strikes == 3){
+                outs++;
+            }
+            if (outs >= 3){
+
+            }
+
 
         }
+    }
+
+    // Using https://cran.r-project.org/web/packages/Lahman/vignettes/hits-by-type.html to determine the probability of outcomes. gen 1-100 number.
+    // 1- 63 = Single
+    // 63-80 = Double
+    // 80 - 95 = Homerun
+    // 95 - 100 = Triple
+    private int generateRandomHit(){
+        int hit = random.nextInt(100) + 1;
+        if (hit <= 63){
+            return 1;
+        }
+        if(hit <= 80){
+            return 2;
+        }
+        if(hit <= 95){
+            return 4;
+        }
+        else{
+            return 3;
+        }
+
+
     }
 
 
