@@ -44,19 +44,19 @@ public class MainSim {
             int result;
             int strikes = 0;
             playerOnBase();
-            int newIndex = 0;
+            int newIndex;
             Pitcher pitcher;
             Batter batter;
 
             int pitchCount;
             if(homeActive){
                 pitcher = (Pitcher) awayTeam.getPitchers().get(0);
-                newIndex += homeIndex;
+                newIndex = homeIndex;
                 batter = (Batter) homeTeam.getBatters().get(newIndex);
             }
             else{
                 pitcher = (Pitcher) homeTeam.getPitchers().get(0);
-                newIndex += awayIndex;
+                newIndex = awayIndex;
                 batter = (Batter) awayTeam.getBatters().get(newIndex);
             }
             int margin = calculateMargin(batter, pitcher);
@@ -77,6 +77,7 @@ public class MainSim {
                 }
             }while (result !=3 && strikes <= 2);
             newIndex++;
+            System.out.println(newIndex);
             if(result == 3){
                     if(random.nextInt(1000)+ 1 <= 248 ){ // This is the average in the mlb. The margin is already used in the simulation code, therefore I decided to use this
                         generateRandomHit(batter,pitcher);
@@ -89,6 +90,10 @@ public class MainSim {
             if (strikes == 3){
                 outs++;
                 strikeOut(batter,pitcher, outs);
+            }
+            if(newIndex >= 8){
+                // Resetting the lineup
+                newIndex = 0;
             }
             if (outs >= 3){
                 System.out.println("Home: " +homeScore);
@@ -108,18 +113,13 @@ public class MainSim {
                     innings++;
                 }
                 outs = 0;
-                if(newIndex == 7){
-                    // Resetting the lineup
-                    if(homeActive){
-                        homeIndex = newIndex;
-                    }
-                    else{
-                        awayIndex = newIndex;
-                    }
-                }
-
                 homeActive = !homeActive;
-
+            }
+            if(homeActive){
+                homeIndex = newIndex;
+            }
+            else{
+                awayIndex = newIndex;
             }
             // Temp sim
             if (innings > 8){
@@ -161,7 +161,7 @@ public class MainSim {
 
 
     }
-    
+
     // Using https://library.fangraphs.com/pitching/batted-ball/, I can determine what the league average is and therefore what the outcome will be
     private void Out(Batter player, int outs){
         int index = random.nextInt(100 + 1);
@@ -187,8 +187,7 @@ public class MainSim {
     }
 
     private int calculateMargin(Batter batter, Pitcher pitcher){
-        Integer margin = Math.floorDiv(Integer.parseInt(batter.getOnBasePercentage()) - pitcher.getEarnedRunAvgPlus() , 2);
-        return margin;
+        return Math.floorDiv(Integer.parseInt(batter.getOnBasePercentage()) - pitcher.getEarnedRunAvgPlus() , 2);
     }
     // If it returns negative, its a pitcher advantage, if positive,batter
 
