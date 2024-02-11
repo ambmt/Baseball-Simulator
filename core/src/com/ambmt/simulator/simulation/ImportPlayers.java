@@ -70,8 +70,6 @@ public class ImportPlayers {
             for (int i = 0; i < 8; i++) {
                 Element homeBatter = homeBatters.get(i);
                 Element awayBatter = awayBatters.get(i);
-                System.out.println(homeBatter);
-
                 // Extract full names of home and away batters
                 String homeFullName = homeBatter.select("td[data-stat=player]").attr("csk");
                 String awayFullName = awayBatter.select("td[data-stat=player]").attr("csk");
@@ -104,8 +102,6 @@ public class ImportPlayers {
             // Extract information for the 9th batter separately
             Element homeBatter9 = homeBatters.get(8);
             Element awayBatter9 = awayBatters.get(8);
-            System.out.println(homeBatter9);
-
             String homeFullName9 = homeBatter9.select("td[data-stat=player]").attr("csk");
             String awayFullName9 = awayBatter9.select("td[data-stat=player]").attr("csk");
             String homeFirstName9 = homeFullName9.split(",")[1].trim();

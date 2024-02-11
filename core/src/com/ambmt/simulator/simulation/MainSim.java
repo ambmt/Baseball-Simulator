@@ -1,7 +1,5 @@
 package com.ambmt.simulator.simulation;
 
-import com.ambmt.simulator.BaseballSim;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,7 +7,7 @@ import java.util.Random;
 public class MainSim {
 
     private int runs;
-    private boolean gameActive;
+    private boolean gameActive = true;
     private List<Boolean> templateList = new ArrayList<>();
     private TempSim tempSim;
     private int atBatCount = 1;
@@ -39,9 +37,9 @@ public class MainSim {
     }
 
     public void startGame(){
-
-        while(!gameActive){
-            List<Boolean> runners= newInning();
+        List<Boolean> runners= newInning();
+        System.out.println(runners);
+        while(gameActive){
             int result;
             int strikes = 0;
 
@@ -51,15 +49,21 @@ public class MainSim {
                     strikes++;
                 }
             }while (result !=3 && strikes <= 2);
-
             if(result == 3){
-                int hitResult = generateRandomHit();
+                runners = generateRandomHit(runners);
             }
             if (strikes == 3){
                 outs++;
             }
             if (outs >= 3){
-
+                runners = newInning();
+                innings++;
+            }
+            System.out.println(runs);
+            System.out.println(runners);
+            // Temp sim
+            if (innings > 1){
+                gameActive = false;
             }
 
 
@@ -71,20 +75,28 @@ public class MainSim {
     // 63-80 = Double
     // 80 - 95 = Homerun
     // 95 - 100 = Triple
-    private int generateRandomHit(){
+    private List<Boolean> generateRandomHit(List<Boolean> runners){
         int hit = random.nextInt(100) + 1;
         if (hit <= 63){
-            return 1;
+            System.out.println("hello");
+            runners = Single(runners);
+            return runners;
         }
         if(hit <= 80){
-            return 2;
+            System.out.println("hello 2");
+            runners = Double(runners);
+            return runners;
         }
         if(hit <= 95){
-            return 4;
+            System.out.println("hello 3");
+            Homerun(runners);
+            return runners;
         }
         else{
-            return 3;
+            System.out.println("hello 4 ");
+            runners = Triple(runners);
         }
+        return runners;
 
 
     }
