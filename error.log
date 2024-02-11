@@ -82,3 +82,24 @@ java.lang.NullPointerException: Cannot read field "camera" because "game" is nul
 	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:166)
 	at com.ambmt.simulator.DesktopLauncher.main(DesktopLauncher.java:17)
 ------------------------
+User Input: Enter additional information here...
+Stack Trace:
+java.lang.Exception
+	at com.ambmt.simulator.managers.ErrorPopup.submitError(ErrorPopup.java:60)
+	at com.ambmt.simulator.managers.ErrorPopup.result(ErrorPopup.java:47)
+	at com.badlogic.gdx.scenes.scene2d.ui.Dialog$2.changed(Dialog.java:91)
+	at com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.handle(ChangeListener.java:28)
+	at com.badlogic.gdx.scenes.scene2d.Actor.notify(Actor.java:188)
+	at com.badlogic.gdx.scenes.scene2d.Actor.fire(Actor.java:158)
+	at com.badlogic.gdx.scenes.scene2d.ui.Button.setChecked(Button.java:125)
+	at com.badlogic.gdx.scenes.scene2d.ui.Button$1.clicked(Button.java:93)
+	at com.badlogic.gdx.scenes.scene2d.utils.ClickListener.touchUp(ClickListener.java:88)
+	at com.badlogic.gdx.scenes.scene2d.InputListener.handle(InputListener.java:71)
+	at com.badlogic.gdx.scenes.scene2d.Stage.touchUp(Stage.java:354)
+	at com.badlogic.gdx.InputEventQueue.drain(InputEventQueue.java:70)
+	at com.badlogic.gdx.backends.lwjgl3.DefaultLwjgl3Input.update(DefaultLwjgl3Input.java:189)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window.update(Lwjgl3Window.java:378)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.loop(Lwjgl3Application.java:192)
+	at com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application.<init>(Lwjgl3Application.java:166)
+	at com.ambmt.simulator.DesktopLauncher.main(DesktopLauncher.java:17)
+

@@ -1,10 +1,10 @@
 // SimulationScreen.java
 package com.ambmt.simulator.views.menus;
 
+import com.ambmt.simulator.managers.ErrorPopup;
 import com.ambmt.simulator.managers.PreferencesManager;
 import com.ambmt.simulator.simulation.ImportPlayers;
 import com.ambmt.simulator.simulation.MainSim;
-import com.ambmt.simulator.simulation.TempSim;
 import com.ambmt.simulator.views.game.ScoreBug;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -21,6 +21,10 @@ public class InGameScreen extends ScreenAdapter {
     private PreferencesManager preferencesManager;
     private boolean isPaused = false;
     private TextArea simTextArea;
+    private boolean simStarted;
+    private MainSim mainSim;
+    private ScoreBug scoreBug;
+
 
 
     public InGameScreen(PreferencesManager preferencesManager) {
@@ -38,31 +42,49 @@ public class InGameScreen extends ScreenAdapter {
         timeControlButton.addListener(new TimeControlistener());
         table.add(timeControlButton).padBottom(20).colspan(2).center().row();
 
-        // Lineups Button
-        TextButton lineupsButton = new TextButton("View Lineups", skin);
-        lineupsButton.addListener(new LineupsClickListener());
-        table.add(lineupsButton).padBottom(20).colspan(2).center().row();
 
         //Simulation Text Area
         simTextArea = new TextArea("Simulation text goes here.", skin);
         ScrollPane scrollPane = new ScrollPane(simTextArea, skin);
         simTextArea.setDisabled(true);
         table.add(scrollPane).expand().fill().colspan(2);
-
-        ScoreBug scoreBug = new ScoreBug(stage);
-        MainSim ms = new MainSim();
-        ms.MainSim();
-        ms.startGame();
+        //init main sim before as uses methods of scorebug
         ImportPlayers imp = new ImportPlayers();
         imp.ImportPlayers();
-
-        
-
+        mainSim = new MainSim();
+        mainSim.init(this);
+        scoreBug = new ScoreBug(stage);
+        try {
+            throw (new NullPointerException());
+        }catch(NullPointerException e){
+            ErrorPopup error = new ErrorPopup("Error", skin);
+            error.show(stage);
+        }
 
 
 
 
     }
+
+    public ScoreBug getScoreBug(){
+        return scoreBug;
+    }
+
+
+    public void updateGUI(boolean scoreBugUpdate, boolean simTextUpdate, String scorebug, String textUpdate){
+//        if(scoreBugUpdate){
+//            ScoreBug scorebug = new ScoreBug(stage);
+//            scoreBugUpdate = false;
+//        }
+        if(simTextUpdate){
+            simTextArea.appendText("\n " + textUpdate);
+            simTextUpdate = false;
+            textUpdate = "";
+        }
+
+
+    }
+
 
     @Override
     public void render(float delta) {
@@ -71,7 +93,12 @@ public class InGameScreen extends ScreenAdapter {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+        if(!simStarted){
+            mainSim.runSim();
+            simStarted = true;
+        }
     }
+
 
     @Override
     public void resize(int width, int height) {
@@ -83,18 +110,14 @@ public class InGameScreen extends ScreenAdapter {
         stage.dispose();
         skin.dispose();
     }
-
-    // Custom listener for the lineups button
-    private class LineupsClickListener extends ClickListener {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            System.out.println("Lineups button clicked");
-        }
-    }
     private class TimeControlistener extends ClickListener{
         @Override
         public void clicked(InputEvent event, float x , float y ){
             System.out.println("Gameplay paused");
         }
+    }
+
+    public void UpdateGui(){
+
     }
 }

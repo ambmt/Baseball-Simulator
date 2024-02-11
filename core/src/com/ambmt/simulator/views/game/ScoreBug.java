@@ -1,13 +1,13 @@
 package com.ambmt.simulator.views.game;
 
+import com.ambmt.simulator.simulation.MainSim;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class ScoreBug extends ScreenAdapter {
 
@@ -33,6 +33,8 @@ public class ScoreBug extends ScreenAdapter {
     private int awayHits = 0;
     private int awayErrors = 0;
     private int awayInnings = 1;
+    private boolean updateScorebug;
+
 
 
     public ScoreBug(Stage stage) {
@@ -49,14 +51,21 @@ public class ScoreBug extends ScreenAdapter {
         homeHitsLabel = new Label("Hits: 0", skin);
         homeErrorsLabel = new Label("Errors: 0", skin);
         homeInningsLabel = new Label("Inning: 1", skin);
+        MainSim ms = new MainSim();
 
-        homeScoreLabel.setFontScale(2);
-        homeHitsLabel.setFontScale(2);
 
-        homeTable.add(homeScoreLabel).padRight(20).row();
+
+
+        homeScoreLabel.setFontScale(1.2f);
+        homeHitsLabel.setFontScale(1.2f);
+        homeErrorsLabel.setFontScale(1.2f);
+        homeInningsLabel.setFontScale(1.2f);
+
+
+        homeTable.add(homeScoreLabel).padRight(20);
         homeTable.add(homeHitsLabel).padRight(20).row();
         homeTable.add(homeErrorsLabel).padRight(20);
-        homeTable.add(homeInningsLabel);
+        homeTable.add(homeInningsLabel).padRight(20).row();
 
         // Away Team Scorebug
         Table awayTable = new Table();
@@ -66,13 +75,19 @@ public class ScoreBug extends ScreenAdapter {
 
         awayScoreLabel = new Label("Score: 0", skin);
         awayHitsLabel = new Label("Hits: 0", skin);
-        awayErrorsLabel = new Label("Errors: 0", skin);
+        awayErrorsLabel = new Label("Errors: 0 ", skin);
         awayInningsLabel = new Label("Inning: 1", skin);
 
+
+        awayScoreLabel.setFontScale(1.2f);
+        awayHitsLabel.setFontScale(1.2f);
+        awayErrorsLabel.setFontScale(1.2f);
+        awayInningsLabel.setFontScale(1.2f);
+
         awayTable.add(awayScoreLabel).padLeft(20);
-        awayTable.add(awayHitsLabel).padLeft(20);
+        awayTable.add(awayHitsLabel).padLeft(20).row();
         awayTable.add(awayErrorsLabel).padLeft(20);
-        awayTable.add(awayInningsLabel);
+        awayTable.add(awayInningsLabel).padRight(20).row();
 
     }
 
@@ -96,10 +111,12 @@ public class ScoreBug extends ScreenAdapter {
         skin.dispose();
     }
 
-    // Update the scorebug with new information
+
+
     // Update the scorebug with new information
     public void updateScorebug(int newHomeScore, int newHomeHits, int newHomeErrors, int newHomeInnings,
                                int newAwayScore, int newAwayHits, int newAwayErrors, int newAwayInnings) {
+        updateScorebug = true;
         homeScore = newHomeScore;
         homeHits = newHomeHits;
         homeErrors = newHomeErrors;
@@ -122,4 +139,5 @@ public class ScoreBug extends ScreenAdapter {
         awayErrorsLabel.setText("Errors: " + awayErrors);
         awayInningsLabel.setText("Inning: " + awayInnings);
     }
+
 }

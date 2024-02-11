@@ -1,9 +1,12 @@
 package com.ambmt.simulator.simulation;
 
 import com.ambmt.simulator.players.*;
+import com.ambmt.simulator.views.game.ScoreBug;
+import com.ambmt.simulator.views.menus.InGameScreen;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +20,8 @@ public class MainSim {
     private Random random;
     private int outs = 0;
     private int innings = 0;
+
+
     private Team homeTeam;
     private Team awayTeam;
     private int homeIndex;
@@ -24,112 +29,140 @@ public class MainSim {
     private String edgePos;
     private int homeScore;
     private int awayScore;
+    private boolean homeActive;
+    private InGameScreen inGameScreen;
+    private int homeHits;
+    private int awayHits;
+    private ScoreBug scoreBug;
+    private Skin skin;
 
-    public void MainSim(){
+
+
+    public boolean isGameActive() {
+        return gameActive;
+    }
+
+
+
+    public void init(InGameScreen ig){
         random = new Random();
         tempSim = new TempSim();
         this.outs = 0;
         this.innings = 0;
-
-    }
-    public void startGame(){
         TeamBuilder tb = new TeamBuilder();
         tb.importJSON(0,0);
         homeTeam = tb.homeTeam;
         awayTeam = tb.awayTeam;
-        runners = new boolean[4];
-        boolean homeActive = false;
-        Team activeTeam;
-        while(gameActive){
-            int result;
-            int strikes = 0;
-            playerOnBase();
-            int newIndex;
-            Pitcher pitcher;
-            Batter batter;
+        this.runners = new boolean[4];
+        this.inGameScreen = ig;
+        scoreBug = inGameScreen.getScoreBug();
 
-            int pitchCount;
-            if(homeActive){
-                pitcher = (Pitcher) awayTeam.getPitchers().get(0);
-                newIndex = homeIndex;
-                batter = (Batter) homeTeam.getBatters().get(newIndex);
-            }
-            else{
-                pitcher = (Pitcher) homeTeam.getPitchers().get(0);
-                newIndex = awayIndex;
-                batter = (Batter) awayTeam.getBatters().get(newIndex);
-            }
-            int margin = calculateMargin(batter, pitcher);
-            if (margin > 0){
-                edgePos = "batter";
-            }
-            else{
-                // Set edge for pitcher and make the number positive now.
-                edgePos = "pitcher";
-                margin *= -1;
-            }
-            pitchCount = 1;
-            do{
-                result = tempSim.calculatePitchOutcome(pitchCount,false,edgePos,margin,0,random);
-                pitchCount++;
-                if(result == 1){
-                    strikes++;
+
+    }
+
+    public void runSim() {
+        new Thread((() -> {
+                synchronized (this) {
+                    while (this.isGameActive()) {
+                        this.runAb();
+                        try{
+                            Thread.sleep(10);
+                        }catch(InterruptedException e){
+                            throw new RuntimeException(e);
+                        }
+
+                    }
                 }
-            }while (result !=3 && strikes <= 2);
-            newIndex++;
-            System.out.println(newIndex);
-            if(result == 3){
-                    if(random.nextInt(1000)+ 1 <= 248 ){ // This is the average in the mlb. The margin is already used in the simulation code, therefore I decided to use this
-                        generateRandomHit(batter,pitcher);
-                    }
-                    else{
-                        outs++;
-                        Out(batter, outs);
-                    }
+        })).start();
+    }
+
+    public void runAb() {
+        int result;
+        int strikes = 0;
+        playerOnBase();
+        int newIndex;
+        Pitcher pitcher;
+        Batter batter;
+
+        int pitchCount;
+        if (homeActive) {
+            pitcher = (Pitcher) awayTeam.getPitchers().get(0);
+            newIndex = homeIndex;
+            batter = (Batter) homeTeam.getBatters().get(newIndex);
+        } else {
+            pitcher = (Pitcher) homeTeam.getPitchers().get(0);
+            newIndex = awayIndex;
+            batter = (Batter) awayTeam.getBatters().get(newIndex);
+        }
+        int margin = calculateMargin(batter, pitcher);
+        if (margin > 0) {
+            edgePos = "batter";
+        } else {
+            // Set edge for pitcher and make the number positive now.
+            edgePos = "pitcher";
+            margin *= -1;
+        }
+        pitchCount = 1;
+        do {
+            result = tempSim.calculatePitchOutcome(pitchCount, false, edgePos, margin, 0, random);
+            pitchCount++;
+            if (result == 1) {
+                strikes++;
             }
-            if (strikes == 3){
+        } while (result != 3 && strikes <= 2 && result != 0);  // Stop if hit or 3 strikes
+        newIndex++;
+        System.out.println(newIndex);
+        if (result == 3) {
+            if (random.nextInt(1000) + 1 <= 248) {
+                generateRandomHit(batter, pitcher);
+            } else {
                 outs++;
-                strikeOut(batter,pitcher, outs);
+                Out(batter, outs);
             }
-            if(newIndex >= 8){
-                // Resetting the lineup
-                newIndex = 0;
+        }
+        if (strikes == 3) {
+            outs++;
+            strikeOut(batter, pitcher, outs);
+        }
+        if (newIndex >= 8) {
+            // Resetting the lineup
+            newIndex = 0;
+        }
+        if (outs >= 3) {
+            System.out.println("Home: " + homeScore);
+            System.out.println("Away: " + awayScore);
+            clearBases();
+            if (homeActive) {
+                homeScore += runs;
+                runs = 0;
+            } else {
+                awayScore += runs;
+                runs = 0;
             }
-            if (outs >= 3){
-                System.out.println("Home: " +homeScore);
-                System.out.println("Away: " + awayScore);
-                clearBases();
-                if(homeActive){
-                    homeScore += runs;
-                    runs = 0;
-                }
-                else{
-                    awayScore += runs;
-                    runs = 0;
-                }
-                System.out.println(Arrays.toString(runners));
-                // A new innning should only be called when the home team has just batted. This being called all the time shortened the game significantly
-                if(homeActive){
-                    innings++;
-                }
-                outs = 0;
-                homeActive = !homeActive;
+            // A new inning should only be called when the home team has just batted. This being called all the time shortened the game significantly
+            if (homeActive) {
+                innings++;
             }
-            if(homeActive){
-                homeIndex = newIndex;
+            outs = 0;
+            homeActive = !homeActive;
+        }
+        if (homeActive) {
+            homeIndex = newIndex;
+        } else {
+            awayIndex = newIndex;
+        }
+        // This is a check to allow games to go into extra innings
+        // Home must be active as they always bat second
+        if (innings > 8 && (homeScore != awayScore) && homeActive) {
+            this.gameActive = false;
+            if(homeScore> awayScore){
+                callUpdate("Home team wins - " + homeScore + " to " + awayScore);
+            }else{
+                callUpdate("Away team wins - " + awayScore + " to " + homeScore);
             }
-            else{
-                awayIndex = newIndex;
-            }
-            // Temp sim
-            if (innings > 8){
-                gameActive = false;
-                System.out.println(homeScore + " score for the home team");
-                System.out.println(awayScore + " score for the away team");
-            }
-
         }
     }
+
 
     // Using https://cran.r-project.org/web/packages/Lahman/vignettes/hits-by-type.html to determine the probability of outcomes. gen 1-100 number.
     // 1- 63 = Single
@@ -138,24 +171,30 @@ public class MainSim {
     // 95 - 100 = Triple
     private void generateRandomHit(Batter batter, Pitcher pitcher){
         int hit = random.nextInt(100) + 1;
+        if(homeActive){
+            homeHits++;
+        }
+        else{
+            awayHits++;
+        }
         if (hit <= 63){
             hitSingle();
-            System.out.println(Arrays.toString(runners) + " single ");
             callUpdate(batter.getName() + " singles off " + pitcher.getName());
+            return;
         }
         if(hit <= 80){
             hitDouble();
             callUpdate(batter.getName() + " doubles off " + pitcher.getName());
+            return;
         }
         if(hit <= 95){
             hitHomeRun();
-            System.out.println(Arrays.toString(runners) + " homerun");
             callUpdate(batter.getName() + " hits a homerun off " + pitcher.getName());
+            return;
         }
         else{
             callUpdate(batter.getName() + " triples off " + pitcher.getName());
             hitTriple();
-            System.out.println(Arrays.toString(runners) + " triple");
 
         }
 
@@ -172,10 +211,9 @@ public class MainSim {
         }
         if( index <= 65){
             callUpdate(player.getName() + " grounds out, " + outs + " down.");
-            return;
         }
         else{
-            callUpdate(player.getName() + " flies, " + outs + " down.");
+            callUpdate(player.getName() + " flies out, " + outs + " down.");
         }
     }
     private void strikeOut(Batter batter, Pitcher pitcher, int outs){
@@ -183,7 +221,14 @@ public class MainSim {
     }
 
     private void callUpdate(String event){
-        System.out.println(event);
+        try {
+            scoreBug.updateScorebug(homeScore, homeHits, 0, innings, awayScore, awayHits, 0, innings);
+        }catch(NullPointerException e){
+            scoreBug = inGameScreen.getScoreBug();
+            scoreBug.updateScorebug(homeScore, homeHits, 0, innings, awayScore, awayHits, 0, innings);
+            return;
+        }
+        Gdx.app.postRunnable(() -> inGameScreen.updateGUI(false,true,"", event));
     }
 
     private int calculateMargin(Batter batter, Pitcher pitcher){
@@ -239,10 +284,17 @@ public class MainSim {
         runners[0] = true;
     }
 
-    public void printBaseStatus() {
-        System.out.println("Bases: " + runners[0] + " " + runners[1] + " " + runners[2] + " " + runners[3]);
-        System.out.println("Runs: " + runs);
+    public Team getHomeTeam() {
+        return homeTeam;
     }
+
+    public Team getAwayTeam() {
+        return awayTeam;
+    }
+
+
+
+
 
 }
 
