@@ -1,14 +1,14 @@
 package com.ambmt.simulator.players;
 
-class Pitcher extends Player {
-    private double earnedRunAvgPlus;
+public class Pitcher extends Player {
+    private int earnedRunAvgPlus;
 
-    public Pitcher(String name, double earnedRunAvgPlus) {
+    public Pitcher(String name, int earnedRunAvgPlus) {
         super(name);
         this.earnedRunAvgPlus = earnedRunAvgPlus;
     }
 
-    public double getEarnedRunAvgPlus() {
+    public int getEarnedRunAvgPlus() {
         return earnedRunAvgPlus;
     }
 }

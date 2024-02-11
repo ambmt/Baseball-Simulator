@@ -2,7 +2,7 @@ package com.ambmt.simulator.players;
 
 import java.util.List;
 
-class Team {
+public class Team {
     private List<Player> pitchers;
     private List<Player> batters;
 

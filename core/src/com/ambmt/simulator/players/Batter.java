@@ -1,6 +1,6 @@
 package com.ambmt.simulator.players;
 
-class Batter extends Player {
+public class Batter extends Player {
     private String onBasePercentage;
 
     public Batter(String name, String onBasePercentage) {

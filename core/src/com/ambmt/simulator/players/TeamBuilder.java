@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TeamBuilder {
+    public Team homeTeam;
+    public Team awayTeam;
     public void importJSON(int HomeIndex, int AwayIndex) {
         try {
             // Use the class loader to get the InputStream for the file
@@ -22,14 +24,14 @@ public class TeamBuilder {
                 JsonNode rootNode = objectMapper.readTree(inputStream);
 
                 // Create teams
-                Team homeTeam = createTeam(rootNode, "home");
-                Team awayTeam = createTeam(rootNode, "away");
+                homeTeam = createTeam(rootNode, "home");
+                awayTeam = createTeam(rootNode, "away");
 
                 // Access elements using indices
                 Player selectedHomePitcher = homeTeam.getPitchers().get(HomeIndex);
                 Player selectedAwayPitcher = awayTeam.getPitchers().get(AwayIndex);
 
-                // Print information
+                // Print information - THIS WILL LATER BE CHANGED TO DISPLAY IN THE FEED
                 System.out.println("Selected Home Pitcher Name: " + selectedHomePitcher.getName());
                 System.out.println("Selected Away Pitcher Name: " + selectedAwayPitcher.getName());
 
@@ -43,13 +45,27 @@ public class TeamBuilder {
         }
     }
 
+
+
     private Team createTeam(JsonNode rootNode, String teamType) {
         JsonNode teamNode = rootNode.at("/" + teamType).get(0);
 
         List<Player> pitchers = createPlayers(teamNode.get("pitchers"));
         List<Player> batters = createPlayers(teamNode.get("batters"));
-        System.out.println(new Team(pitchers, batters).getPitchers());
-        System.out.println(new Team(pitchers,batters).getBatters());
+        List<Player> t = new Team(pitchers, batters).getPitchers();
+        List<Player> f = new Team(pitchers, batters).getBatters();
+        for(Player player: t){
+            if(player instanceof Pitcher){
+                Pitcher p = (Pitcher) player;
+                System.out.println(p.getName() + " " + p.getEarnedRunAvgPlus());
+            }
+        }
+        for(Player player : f){
+            if(player instanceof Batter){
+                Batter b = (Batter) player;
+                System.out.println(b.getName() + " " + b.getOnBasePercentage());
+            }
+        }
         return new Team(pitchers, batters);
     }
 
@@ -64,7 +80,7 @@ public class TeamBuilder {
             // Check the player type (pitcher or batter) based on the available attributes
             if (playerNode.has("earned_run_avg_plus")) {
                 // It's a pitcher
-                double earnedRunAvgPlus = Double.parseDouble(playerNode.get("earned_run_avg_plus").asText());
+                int earnedRunAvgPlus = Integer.parseInt(playerNode.get("earned_run_avg_plus").asText());
                 players.add(new Pitcher(name, earnedRunAvgPlus));
             } else {
                 // It's a batter
