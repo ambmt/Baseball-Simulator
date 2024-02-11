@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class TeamBuilder {
     public Team homeTeam;
@@ -41,6 +39,7 @@ public class TeamBuilder {
                 System.out.println("File not found");
             }
         } catch (Exception e) {
+            // TO-DO FIX THIS
             e.printStackTrace();
         }
     }
@@ -85,7 +84,14 @@ public class TeamBuilder {
             } else {
                 // It's a batter
                 String onBasePercentage = playerNode.get("on_base_percentage").asText();
-                players.add(new Batter(name, onBasePercentage));
+                Map<String, Double> hm = new HashMap<>();
+                hm.put("avg" , 1.000);
+                hm.put("1B", 0.0);
+                hm.put("2B", 0.0);
+                hm.put("3B", 0.0);
+                hm.put("HR", 0.0);
+                hm.put("K", 0.0);
+                players.add(new Batter(name, onBasePercentage, hm));
             }
         }
 

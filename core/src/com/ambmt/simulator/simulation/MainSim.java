@@ -1,5 +1,6 @@
 package com.ambmt.simulator.simulation;
 
+import com.ambmt.simulator.ExportStats;
 import com.ambmt.simulator.players.*;
 import com.ambmt.simulator.views.game.ScoreBug;
 import com.ambmt.simulator.views.menus.InGameScreen;
@@ -155,6 +156,9 @@ public class MainSim {
         // Home must be active as they always bat second
         if (innings > 8 && (homeScore != awayScore) && homeActive) {
             this.gameActive = false;
+            ExportStats exp = new ExportStats();
+            exp.exportAvgToStatsFile(homeTeam.getBatters(), "home");
+            exp.exportAvgToStatsFile(awayTeam.getBatters(), "away");
             if(homeScore> awayScore){
                 callUpdate("Home team wins - " + homeScore + " to " + awayScore);
             }else{
@@ -178,21 +182,29 @@ public class MainSim {
             awayHits++;
         }
         if (hit <= 63){
+            double i = batter.getStats("1B");
+            batter.getFullStats().put("1B" , i + 1);
             hitSingle();
             callUpdate(batter.getName() + " singles off " + pitcher.getName());
             return;
         }
         if(hit <= 80){
+            double i = batter.getStats("2B");
+            batter.getFullStats().put("2B" , i + 1);
             hitDouble();
             callUpdate(batter.getName() + " doubles off " + pitcher.getName());
             return;
         }
         if(hit <= 95){
+            double i = batter.getStats("HR");
+            batter.getFullStats().put("HR" , i + 1);
             hitHomeRun();
             callUpdate(batter.getName() + " hits a homerun off " + pitcher.getName());
             return;
         }
         else{
+            double i = batter.getStats("3B");
+            batter.getFullStats().put("3B" , i + 1);
             callUpdate(batter.getName() + " triples off " + pitcher.getName());
             hitTriple();
 
@@ -217,6 +229,8 @@ public class MainSim {
         }
     }
     private void strikeOut(Batter batter, Pitcher pitcher, int outs){
+        double i = batter.getStats("K");
+        batter.addStats("K", i + 1);
         callUpdate(batter.getName() + " strikes out against " + pitcher.getName() + "," + outs + " outs.");
     }
 

@@ -1,7 +1,6 @@
 // SimulationScreen.java
 package com.ambmt.simulator.views.menus;
 
-import com.ambmt.simulator.managers.ErrorPopup;
 import com.ambmt.simulator.managers.PreferencesManager;
 import com.ambmt.simulator.simulation.ImportPlayers;
 import com.ambmt.simulator.simulation.MainSim;
@@ -54,13 +53,6 @@ public class InGameScreen extends ScreenAdapter {
         mainSim = new MainSim();
         mainSim.init(this);
         scoreBug = new ScoreBug(stage);
-        try {
-            throw (new NullPointerException());
-        }catch(NullPointerException e){
-            ErrorPopup error = new ErrorPopup("Error", skin);
-            error.show(stage);
-        }
-
 
 
 
@@ -68,6 +60,10 @@ public class InGameScreen extends ScreenAdapter {
 
     public ScoreBug getScoreBug(){
         return scoreBug;
+    }
+
+    public Stage getStage(){
+        return stage;
     }
 
 

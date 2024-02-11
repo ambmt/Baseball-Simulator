@@ -18,7 +18,7 @@ public class ImportPlayers {
     public void ImportPlayers() {
         // Initialize team abbreviations and years
         Map<String, String> abbrs = new HashMap<>(25);
-        abbrs.put("home", "NYY");
+        abbrs.put("home", "CLE");
         abbrs.put("away", "HOU");
         Map<String, String> years = new HashMap<>(25);
         years.put("home", "2021");
