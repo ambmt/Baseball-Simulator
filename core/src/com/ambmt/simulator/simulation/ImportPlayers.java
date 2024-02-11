@@ -329,7 +329,7 @@ public class ImportPlayers {
             dataObject.put("away", awayArray);
 
             // Convert to JSON and write to a file
-            objectMapper.writeValue(new File("players_stats.json"), dataObject);
+            objectMapper.writeValue(new File("assets/players_stats.json"), dataObject);
 
             System.out.println("Players' stats saved to players_stats.json");
 
@@ -337,5 +337,7 @@ public class ImportPlayers {
             e.printStackTrace();
         }
     }
+
+
 }
 

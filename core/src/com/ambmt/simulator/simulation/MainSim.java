@@ -1,8 +1,17 @@
 package com.ambmt.simulator.simulation;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.io.File;
+import java.util.logging.FileHandler;
 
 public class MainSim {
 
@@ -38,11 +47,11 @@ public class MainSim {
 
     public void startGame(){
         List<Boolean> runners= newInning();
-        System.out.println(runners);
+        calculateMargin(0,0);
         while(gameActive){
             int result;
             int strikes = 0;
-
+            newAb(runners);
             do{
                 result = tempSim.calculatePitchOutcome(1,false,"batter",20,0,random);
                 if(result == 1){
@@ -59,8 +68,6 @@ public class MainSim {
                 runners = newInning();
                 innings++;
             }
-            System.out.println(runs);
-            System.out.println(runners);
             // Temp sim
             if (innings > 1){
                 gameActive = false;
@@ -78,22 +85,18 @@ public class MainSim {
     private List<Boolean> generateRandomHit(List<Boolean> runners){
         int hit = random.nextInt(100) + 1;
         if (hit <= 63){
-            System.out.println("hello");
             runners = Single(runners);
             return runners;
         }
         if(hit <= 80){
-            System.out.println("hello 2");
             runners = Double(runners);
             return runners;
         }
         if(hit <= 95){
-            System.out.println("hello 3");
             Homerun(runners);
             return runners;
         }
         else{
-            System.out.println("hello 4 ");
             runners = Triple(runners);
         }
         return runners;
@@ -166,4 +169,53 @@ public class MainSim {
 
     }
 
+    private List<Boolean> newAb(List<Boolean> runners){
+        runners.set(0, true);
+        return runners;
+    }
+
+    public void calculateMargin(int HomeIndex, int AwayIndex){
+        try {
+            // Use the class loader to get the InputStream for the file
+            FileHandle fileHandler = Gdx.files.internal("players_stats.json");
+            InputStream inputStream  = fileHandler.read();
+
+
+            if (inputStream != null) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode rootNode = objectMapper.readTree(inputStream);
+
+                // Import the pitcher array, home, and away
+                JsonNode pitchersNode = rootNode.at("/away/0/pitchers");
+                JsonNode homeNode = rootNode.at("/home");
+                JsonNode awayNode = rootNode.at("/away");
+
+                // Convert to lists
+                List<String> pitchersList = objectMapper.convertValue(pitchersNode, new TypeReference<List<String>>() {});
+                List<String> homeList = objectMapper.convertValue(homeNode, new TypeReference<List<String>>() {});
+                List<String> awayList = objectMapper.convertValue(awayNode, new TypeReference<List<String>>() {});
+
+                // Access elements using indices
+                String selectedHomePitcherName = pitchersList.get(HomeIndex);
+                String selectedAwayPitcherName = pitchersList.get(AwayIndex);
+                String selectedHomeStat = homeList.get(HomeIndex);
+                String selectedAwayStat = awayList.get(AwayIndex);
+
+                // Print information
+                System.out.println("Selected Home Pitcher Name: " + selectedHomePitcherName);
+                System.out.println("Selected Away Pitcher Name: " + selectedAwayPitcherName);
+                System.out.println("Selected Home Stat: " + selectedHomeStat);
+                System.out.println("Selected Away Stat: " + selectedAwayStat);
+
+                // Close the InputStream
+                inputStream.close();
+            } else {
+                System.out.println("File not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
